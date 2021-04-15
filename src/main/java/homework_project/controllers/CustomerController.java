@@ -1,7 +1,7 @@
 package homework_project.controllers;
 
 import homework_project.assemblers.CustomerModelAssembler;
-import homework_project.dataSetters.DataSetters;
+import homework_project.data_setters.DataSetters;
 import homework_project.exceptions.CustomerDoesNotExistException;
 import homework_project.models.Customer;
 import homework_project.repositories.CustomerRepository;
@@ -45,7 +45,6 @@ public class CustomerController {
     }
 
     @PostMapping(value = "/customers")
-    @ResponseBody
     public ResponseEntity<EntityModel<Customer>> createNewCustomer(@RequestBody Customer newCustomer) {
         EntityModel<Customer> customerEntityModel = customerModelAssembler.toModel(customerRepository.save(newCustomer));
         return ResponseEntity.created(customerEntityModel

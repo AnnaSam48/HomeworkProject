@@ -1,10 +1,9 @@
 package homework_project.controllers;
 
 import homework_project.assemblers.DebtCaseModelAssembler;
-import homework_project.dataSetters.DataSetters;
+import homework_project.data_setters.DataSetters;
 import homework_project.exceptions.CaseWithThisIdNotFoundException;
 import homework_project.exceptions.NoCasesFoundByCustomerException;
-import homework_project.models.Customer;
 import homework_project.models.DebtCase;
 import homework_project.repositories.DebtCaseRepository;
 import lombok.AllArgsConstructor;
@@ -48,10 +47,10 @@ public class DebtCaseController {
 
     @GetMapping(value = "/cases/{customerId}")
     public CollectionModel<EntityModel<DebtCase>> getDebtCaseListByCustomerId(@PathVariable Long customerId){
-        if(debtCaseRepository.findByCustomer(customerId)==null){
+        if(debtCaseRepository.findByCustomerId(customerId)==null){
             throw new NoCasesFoundByCustomerException(customerId);
         }
-        List<EntityModel<DebtCase>> allCasesByCustomer = debtCaseRepository.findByCustomer(customerId).stream()
+        List<EntityModel<DebtCase>> allCasesByCustomer = debtCaseRepository.findByCustomerId(customerId).stream()
                 .map(debtCaseModelAssembler::toModel)
                 .collect(Collectors.toList());
         return CollectionModel.of(allCasesByCustomer,
@@ -59,7 +58,6 @@ public class DebtCaseController {
     }
 
     @PostMapping(value = "/cases")
-    @ResponseBody
     public ResponseEntity<EntityModel<DebtCase>> createNewDebtCase(@RequestBody DebtCase newDebtCase){
         EntityModel<DebtCase> debtCaseEntityModel = debtCaseModelAssembler.toModel(debtCaseRepository.save(newDebtCase));
         return ResponseEntity.created(debtCaseEntityModel
@@ -72,7 +70,7 @@ public class DebtCaseController {
         if(!debtCaseRepository.findById(caseId).isPresent()) {
             throw new CaseWithThisIdNotFoundException(caseId);
         } else {
-            DebtCase existingDebtcase = debtCaseRepository.findById(caseId)
+            DebtCase existingDebtCase = debtCaseRepository.findById(caseId)
                     .map(debtCase -> {
                         DataSetters.setDataInDebtCase(editedDebtCase, debtCase);
                         return debtCaseRepository.save(debtCase);
@@ -80,7 +78,7 @@ public class DebtCaseController {
                         editedDebtCase.setCaseId(caseId);
                         return debtCaseRepository.save(editedDebtCase);
                     });
-            EntityModel<DebtCase> debtCaseEntityModel = debtCaseModelAssembler.toModel(existingDebtcase);
+            EntityModel<DebtCase> debtCaseEntityModel = debtCaseModelAssembler.toModel(existingDebtCase);
             return ResponseEntity.created(debtCaseEntityModel
             .getRequiredLink(IanaLinkRelations.SELF).toUri())
                     .body(debtCaseEntityModel);

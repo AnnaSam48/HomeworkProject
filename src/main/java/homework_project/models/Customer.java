@@ -11,8 +11,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "CUSTOMER")
@@ -20,10 +21,11 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Customer {
+public class Customer implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "customer_id")
     private Long id;
     @NotBlank(message = "*Please provide your fist name")
     @Length(min = 2, max=200, message = "*Please provide your fist name")
@@ -46,8 +48,8 @@ public class Customer {
     @Column(name = "password")
     private String password;
     @JsonIgnore
-    @OneToMany(mappedBy = "customer")
-    private Set<DebtCase> customersDebtCases;
+    @OneToMany(fetch=FetchType.LAZY ,cascade=CascadeType.ALL, mappedBy = "customer")
+    private List<DebtCase> debtCaseList;
 
     @Override
     public boolean equals(Object o) {

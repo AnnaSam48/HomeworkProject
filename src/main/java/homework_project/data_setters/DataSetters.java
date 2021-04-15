@@ -1,4 +1,4 @@
-package homework_project.dataSetters;
+package homework_project.data_setters;
 
 import homework_project.models.Customer;
 import homework_project.models.DebtCase;
@@ -10,11 +10,10 @@ public class DataSetters {
         customer.setSurname(editedCustomer.getSurname());
         customer.setCountry(editedCustomer.getCountry());
         customer.setEmail(editedCustomer.getEmail());
-        customer.setCustomersDebtCases(editedCustomer.getCustomersDebtCases());
     }
 
     public static void setDataInDebtCase(DebtCase editedDebtCase, DebtCase debtCase) {
-        debtCase.setDebtor(editedDebtCase.getDebtor());
+        debtCase.setCustomer(editedDebtCase.getCustomer());
         debtCase.setAmount(editedDebtCase.getAmount());
         debtCase.setCurrency(editedDebtCase.getCurrency());
         debtCase.setDueDate(editedDebtCase.getDueDate());

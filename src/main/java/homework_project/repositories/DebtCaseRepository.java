@@ -12,9 +12,7 @@ public interface DebtCaseRepository extends CrudRepository <DebtCase, Long>{
 
     Optional<DebtCase> findById(Long id);
     List<DebtCase> findAll();
-    String searchDebtCasesByCustomerId = "SELECT dc FROM DEBT_CASE dc JOIN dc.customer c WHERE c.id = customerId";
-    @Query(searchDebtCasesByCustomerId)
-    List<DebtCase> findByCustomer(@Param(value = "customerId") Long customerId);
+    List<DebtCase> findByCustomerId(@Param("customerId")Long customerId);
 
 
 }
