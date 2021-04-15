@@ -1,7 +1,6 @@
-package HomeworkProject.repositories;
+package homework_project.repositories;
 
-import HomeworkProject.models.Customer;
-import HomeworkProject.models.DebtCase;
+import homework_project.models.DebtCase;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

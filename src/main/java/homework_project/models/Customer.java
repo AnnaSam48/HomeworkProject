@@ -1,5 +1,6 @@
-package HomeworkProject.models;
+package homework_project.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,6 +45,7 @@ public class Customer {
     @Length(min=5, max=180, message = "*Please provide password, it must be at least 5 characters long")
     @Column(name = "password")
     private String password;
+    @JsonIgnore
     @OneToMany(mappedBy = "customer")
     private Set<DebtCase> customersDebtCases;
 
