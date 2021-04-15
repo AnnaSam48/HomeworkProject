@@ -12,7 +12,7 @@ public class DataSetters {
         customer.setEmail(editedCustomer.getEmail());
     }
 
-    public static void setDataInDebtCase(DebtCase editedDebtCase, DebtCase debtCase) {
+    public static void setDataInDebtCase(DebtCase debtCase, DebtCase editedDebtCase) {
         debtCase.setCustomer(editedDebtCase.getCustomer());
         debtCase.setAmount(editedDebtCase.getAmount());
         debtCase.setCurrency(editedDebtCase.getCurrency());
