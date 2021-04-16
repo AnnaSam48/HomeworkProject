@@ -7,7 +7,7 @@ public class DataSetters {
 
     public static void setDataInCustomer(Customer customer, Customer editedCustomer) {
         customer.setFirstName(editedCustomer.getFirstName());
-        customer.setSurname(editedCustomer.getSurname());
+        customer.setLastName(editedCustomer.getLastName());
         customer.setCountry(editedCustomer.getCountry());
         customer.setEmail(editedCustomer.getEmail());
     }

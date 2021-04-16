@@ -34,7 +34,7 @@ public class Customer implements Serializable{
     @NotBlank(message = "*Please provide your last name")
     @Length(min = 2, max=200, message = "*Please provide your last name")
     @Column(name = "last_name")
-    private String surname;
+    private String lastName;
     @NotBlank(message = "*Please provide country")
     @Length(min = 4, max=63,message = "*Please provide country")
     @Column(name = "country")
@@ -56,12 +56,12 @@ public class Customer implements Serializable{
         if (this == o) return true;
         if (!(o instanceof Customer)) return false;
         Customer customer = (Customer) o;
-        return id.equals(customer.id) && firstName.equals(customer.firstName) && surname.equals(customer.surname) && country.equals(customer.country) && email.equals(customer.email) && password.equals(customer.password);
+        return id.equals(customer.id) && firstName.equals(customer.firstName) && lastName.equals(customer.lastName) && country.equals(customer.country) && email.equals(customer.email) && password.equals(customer.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, surname, country, email, password);
+        return Objects.hash(id, firstName, lastName, country, email, password);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class Customer implements Serializable{
         return "Customer{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
-                ", surname='" + surname + '\'' +
+                ", surname='" + lastName + '\'' +
                 ", country='" + country + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
