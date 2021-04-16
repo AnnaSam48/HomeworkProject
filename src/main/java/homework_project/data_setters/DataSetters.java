@@ -10,6 +10,7 @@ public class DataSetters {
         customer.setLastName(editedCustomer.getLastName());
         customer.setCountry(editedCustomer.getCountry());
         customer.setEmail(editedCustomer.getEmail());
+        customer.setPassword(editedCustomer.getPassword());
     }
 
     public static void setDataInDebtCase(DebtCase debtCase, DebtCase editedDebtCase) {
