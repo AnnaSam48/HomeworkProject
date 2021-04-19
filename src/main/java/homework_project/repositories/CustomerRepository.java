@@ -1,6 +1,6 @@
 package homework_project.repositories;
 
-import homework_project.models.Customer;
+import homework_project.models.entities.Customer;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

@@ -4,16 +4,18 @@ import homework_project.assemblers.CustomerModelAssembler;
 import homework_project.data_setters.DataSetters;
 import homework_project.exceptions.CustomerDoesNotExistException;
 import homework_project.exceptions.TechnicalError;
-import homework_project.models.Customer;
+import homework_project.models.dtos.CustomerDTO;
+import homework_project.models.entities.Customer;
 import homework_project.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Validated
 @Service
 public class CustomerService {
 
@@ -22,7 +24,7 @@ public class CustomerService {
     @Autowired
     CustomerModelAssembler customerModelAssembler;
 
-    public List<EntityModel<Customer>> allCustomers(){
+    public List<CustomerDTO> allCustomers(){
        return customerRepository.findAll().stream()
                 .map(customerModelAssembler::toModel)
                 .collect(Collectors.toList());
@@ -36,11 +38,11 @@ public class CustomerService {
                 .orElseThrow(TechnicalError::new);
     }
 
-    public EntityModel<Customer> createCustomer(Customer newCustomer){
+    public CustomerDTO createCustomer(Customer newCustomer){
         return customerModelAssembler.toModel(customerRepository.save(newCustomer));
     }
 
-    public EntityModel<Customer> updateCustomer(Customer customerWithChanges, Long id) {
+    public CustomerDTO updateCustomer(Customer customerWithChanges, Long id) {
             Customer updatedCustomer = customerRepository.findById(id)
                     .map(customer -> {
                         DataSetters.setDataInCustomer(customer, customerWithChanges);
@@ -53,11 +55,12 @@ public class CustomerService {
             return customerModelAssembler.toModel(updatedCustomer);
     }
 
-    public ResponseEntity<EntityModel<Customer>> deleteCustomer(Long id){
+    public ResponseEntity<CustomerDTO> deleteCustomer(Long id){
         if (!customerRepository.findById(id).isPresent()) {
             throw new CustomerDoesNotExistException(id);
         } else {
             customerRepository.deleteById(id);
+            ResponseEntity.ok(CustomerDTO.class);
             return ResponseEntity.noContent().build();
         }
     }

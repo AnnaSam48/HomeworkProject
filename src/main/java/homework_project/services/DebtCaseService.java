@@ -4,16 +4,19 @@ import homework_project.assemblers.DebtCaseModelAssembler;
 import homework_project.data_setters.DataSetters;
 import homework_project.exceptions.CaseWithThisIdNotFoundException;
 import homework_project.exceptions.NoCasesFoundByCustomerException;
-import homework_project.models.DebtCase;
+import homework_project.models.entities.DebtCase;
+import homework_project.models.dtos.CustomerDTO;
+import homework_project.models.dtos.DebtCaseDTO;
 import homework_project.repositories.DebtCaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Validated
 @Service
 public class DebtCaseService {
 
@@ -22,7 +25,7 @@ public class DebtCaseService {
     @Autowired
     DebtCaseModelAssembler debtCaseModelAssembler;
 
-    public List<EntityModel<DebtCase>> allCases(){
+    public List<DebtCaseDTO> allCases(){
         return debtCaseRepository.findAll().stream()
                 .map(debtCaseModelAssembler::toModel)
                 .collect(Collectors.toList());
@@ -33,8 +36,8 @@ public class DebtCaseService {
                 .orElseThrow(() -> new CaseWithThisIdNotFoundException(id));
     }
 
-    public List<EntityModel<DebtCase>> allCasesFoundByCustomerId(Long customerId){
-        if(debtCaseRepository.findByCustomerId(customerId)==null){
+    public List<DebtCaseDTO> allCasesFoundByCustomerId(Long customerId){
+        if(debtCaseRepository.findByCustomerId(customerId).isEmpty()){
             throw new NoCasesFoundByCustomerException(customerId);
         }
         return debtCaseRepository.findByCustomerId(customerId).stream()
@@ -42,14 +45,11 @@ public class DebtCaseService {
                 .collect(Collectors.toList());
     }
 
-    public EntityModel<DebtCase> createDebtCase(DebtCase newCase){
+    public DebtCaseDTO createDebtCase(DebtCase newCase){
         return debtCaseModelAssembler.toModel(debtCaseRepository.save(newCase));
     }
 
-    public EntityModel<DebtCase> updateDebtCase(DebtCase debtCaseWithChanges, Long id) {
-        if (!debtCaseRepository.findById(id).isPresent()) {
-            throw new CaseWithThisIdNotFoundException(id);
-        } else {
+    public DebtCaseDTO updateDebtCase(DebtCase debtCaseWithChanges, Long id) {
             DebtCase existingDebtCase = debtCaseRepository.findById(id)
                     .map(debtCase -> {
                         DataSetters.setDataInDebtCase(debtCase, debtCaseWithChanges);
@@ -59,14 +59,14 @@ public class DebtCaseService {
                         return debtCaseRepository.save(debtCaseWithChanges);
                     });
             return debtCaseModelAssembler.toModel(existingDebtCase);
-        }
     }
 
-    public ResponseEntity<EntityModel<DebtCase>> deleteCase(Long id){
+    public ResponseEntity<DebtCaseDTO> deleteCase(Long id){
         if(!debtCaseRepository.findById(id).isPresent()){
             throw new CaseWithThisIdNotFoundException(id);
         }else {
             debtCaseRepository.deleteById(id);
+            ResponseEntity.ok(CustomerDTO.class);
             return ResponseEntity.noContent().build();
         }
     }

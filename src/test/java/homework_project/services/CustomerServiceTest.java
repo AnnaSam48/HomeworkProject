@@ -1,8 +1,9 @@
 package homework_project.services;
 
+
 import homework_project.assemblers.CustomerModelAssembler;
 import homework_project.exceptions.CustomerDoesNotExistException;
-import homework_project.models.Customer;
+import homework_project.models.entities.Customer;
 import homework_project.repositories.CustomerRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -29,7 +30,7 @@ class CustomerServiceTest {
     @Mock
     CustomerRepository customerRepository;
     @Mock
-    CustomerModelAssembler customerModelAssembler;
+    CustomerModelAssembler fullCustomerModelAssembler;
 
     @Test
     void getAllCustomersTest() {
@@ -64,7 +65,8 @@ class CustomerServiceTest {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(old));
         customerService.updateCustomer(updated, old.getId());
         Mockito.verify(customerRepository,times(2)).save(updated);
-
+        Assertions.assertEquals(old.getFirstName(), updated.getFirstName());
+        Assertions.assertEquals(old.getId(), updated.getId());
     }
 
     @Test
@@ -74,8 +76,8 @@ class CustomerServiceTest {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.empty());
         customerService.updateCustomer(updated, old.getId());
         Mockito.verify(customerRepository,times(1)).save(updated);
-
     }
+
 
     @Test
     void customerNotFoundByIdExceptionTest() {

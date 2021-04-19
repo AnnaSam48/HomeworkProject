@@ -1,7 +1,7 @@
 package homework_project.data_setters;
 
-import homework_project.models.Customer;
-import homework_project.models.DebtCase;
+import homework_project.models.entities.Customer;
+import homework_project.models.entities.DebtCase;
 
 public class DataSetters {
 
@@ -14,7 +14,7 @@ public class DataSetters {
     }
 
     public static void setDataInDebtCase(DebtCase debtCase, DebtCase editedDebtCase) {
-        debtCase.setCustomer(editedDebtCase.getCustomer());
+        debtCase.setCustomerId(editedDebtCase.getCustomerId());
         debtCase.setAmount(editedDebtCase.getAmount());
         debtCase.setCurrency(editedDebtCase.getCurrency());
         debtCase.setDueDate(editedDebtCase.getDueDate());
