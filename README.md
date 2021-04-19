@@ -19,10 +19,10 @@ Create a REST services that would support the following functionality:
 
 This aplication needs latest maven version installed.
 
-##General info:
+## General info:
 Aplication makes use of Spring HATEOAS and H2 data base.
 
-##Can be accessed from: *http://localhost:8020/cases* or *http://localhost:8020/customers*
+## Can be accessed from: *http://localhost:8020/cases* or *http://localhost:8020/customers*
 
 (the port also can be configured in properties file if needed) 
 Access data username, password can be found in properties file.
